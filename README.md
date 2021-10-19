@@ -8,13 +8,13 @@ GEA-1 (allowing to weaken the key strength to 40 bits instead of 64).
 A [2nd paper](https://eprint.iacr.org/2021/829.pdf) extends this cryptanalysis and
 provides a broader look at this kind of cryptographic construct.
 
-Both GEA-1 and GEA-2 are stream-ciphers based on 3, and respectively 4, LFSRs and a boolean
+Both GEA-1 and GEA-2 are stream ciphers based on 3, and respectively 4, LFSRs and a boolean
 function.
 
 
 ## Licensing
 
-The code contained in this repository provided as-is without warranty, under the
+The code contained in this repository provided as is without warranty, under the
 [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.txt) software license.
 If you are interested by another kind of licensing, please contact 
 [P1 Security](https://www.p1sec.com/corp/contact/).
@@ -29,13 +29,14 @@ As the code provided is to be used into any kind of application, there is no ins
 
 ### Python
 
-The code is made to work with Python3.
+The code is made to work with Python 3.
 
 In order to use the Python version, you can load the python file as a module and call
 the `GEA1` or `GEA` classes. Beware that arguments are in an uncommon format: inputs IV, 
 direction and Key must be passed as integral values, and the `gen()` method takes a length
 in bits for the requested keystream, and returns a list of bits (0 or 1). Docstrings are 
 provided within the modules.
+
 Moreover, the `LFSR.dbg` attribute can be set in order to print the initialized values
 within registers.
 
@@ -54,6 +55,7 @@ C init: 0x0000000100000000
 
 
 Calling the `gea12.py` file as is runs the 3 test vectors for the 2 algorithms.
+
 ```
 $ python ./gea12.py 
 GEA1 test vector 0: OK
@@ -64,8 +66,8 @@ GEA2 test vector 1: OK
 GEA2 test vector 2: OK
 ```
 
-Warning: this Python implementation is slow as hell ! For any serious work, please
-use the rust or C ones.
+Warning: this Python implementation is slow as hell! For any serious work, please
+use the Rust or C ones.
 
 
 ### C
@@ -92,12 +94,21 @@ Warning: the code makes use of the `uint64_t` type for each register, hence requ
 a 64 bit machine. Moreover, it has been tested on a little-endian system only.
 
 
-### rust
+### Rust
 
-TODO
+The Rust implementation is provided under the `gea-rs` subdirectory.
 
+It is an independant crate which contains documentation.
 
-## How do those LFSR-based algorithms work
+Examples of usage are present in the [`lib.rs`](gea-rs/src/lib.rs) file.
+
+These examples are also tests, which can be run using the following command:
+
+```console-session
+cargo test --release
+```
+
+## How do those LFSR-based algorithms work?
 
 It should first be noted that GEA-1 and GEA-2, which are very similar (GEA-1 is just 
 an extension of GEA-2 with an higher amount of processing) are bit-oriented stream ciphers.
