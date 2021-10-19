@@ -552,12 +552,7 @@ for cipher, plain, (key, iv, dir) in zip(
 def test_gea1():
     for i, (iv, dir, key, cipher, plain) in enumerate(TestVectorsGEA1[:3]):
         ks = bitlist_to_uint(GEA1(iv, dir, key).gen(144))
-        # keystream byte-order need to be reverted
-        # TODO: rm this ?
-        print('DEBUG MMR 18OCT2021 (GEA1): %r => %r' % (
-            hex(plain),
-            hex(byte_rev(byte_rev(plain, 18) ^ ks, 18))
-        ))
+        # keystream byte-order needs to be reverted
         if LFSR.dbg:
             print('Keystream: 0x%x' % ks)
         if byte_rev(plain, 18) ^ byte_rev(cipher, 18) == ks:
@@ -592,14 +587,9 @@ for cipher, plain, (key, iv, dir) in zip(
 def test_gea2():
     for i, (iv, dir, key, cipher, plain) in enumerate(TestVectorsGEA2[:3]):
         ks = bitlist_to_uint(GEA2(iv, dir, key).gen(144))
-        # keystream byte-order need to be reverted
+        # keystream byte-order needs to be reverted
         if LFSR.dbg:
             print('Keystream: 0x%x' % ks)
-        # TODO: rm this ?
-        print('DEBUG MMR 18OCT2021: %r => %r' % (
-            hex(plain),
-            hex(byte_rev(byte_rev(plain, 18) ^ ks, 18))
-        ))
         if byte_rev(plain, 18) ^ byte_rev(cipher, 18) == ks:
             print('GEA2 test vector %i: OK' % i)
         else:
