@@ -1,0 +1,10 @@
+*.pyc
+.~lock.*
+__pycache__
+*.so
+Cargo.lock
+build/
+target/
+test
+*~
+*.swp
