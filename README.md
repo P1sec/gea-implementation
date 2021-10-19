@@ -5,9 +5,10 @@ Algorithm 1 and 2**. The ["*Cryptanalysis of the GPRS Encryption Algorithms GEA-
 and GEA-2*"](https://eprint.iacr.org/2021/819.pdf) research paper provides the
 complete description of both algorithms, and an efficient cryptanalysis against 
 GEA-1 (allowing to weaken the key strength to 40 bits instead of 64).
-A [2nd paper]() proposes a cryptanalysis against GEA2
+A [2nd paper](https://eprint.iacr.org/2021/829.pdf) extends this cryptanalysis and
+provides a broader look at this kind of cryptographic construct.
 
-Both GEA-1 and GEA-2 are stream-cipher based on 3, and respectively 4, LFSRs and a boolean
+Both GEA-1 and GEA-2 are stream-ciphers based on 3, and respectively 4, LFSRs and a boolean
 function.
 
 
@@ -126,7 +127,7 @@ from the purpose of keystream generation, which are respectively 31, 32, 33 and 
 registers.
 
 At each iteration of the keystream generation, each register is 
-[bit-wise rotated](https://en.wikipedia.org/wiki/Circular_shift)  of one position, and the bit being rotated from 
+[bit-wise rotated](https://en.wikipedia.org/wiki/Circular_shift) of one position, and the bit being rotated from 
 the left towards the right side (or conversely depending on in which bit order you internally 
 represent your registers) is being fed to the algorithm and mutated depending on given conditions, 
 hence the shifted out bit is derived from something and reinserted while being possibly 
