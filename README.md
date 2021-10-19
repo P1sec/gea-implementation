@@ -64,7 +64,7 @@ GEA2 test vector 2: OK
 ```
 
 Warning: this Python implementation is slow as hell ! For any serious work, please
-use the rust of C ones.
+use the rust or C ones.
 
 
 ### C
