@@ -1,5 +1,30 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
+#/**
+# * Software Name : gea12.py
+# * Version : 0.1
+# *
+# * Copyright 2021. Benoit Michau. P1Sec.
+# *
+# * This program is free software: you can redistribute it and/or modify
+# * it under the terms of the GNU Affero General Public License as published by
+# * the Free Software Foundation, either version 3 of the License, or
+# * (at your option) any later version.
+# *
+# * This program is distributed in the hope that it will be useful,
+# * but WITHOUT ANY WARRANTY; without even the implied warranty of
+# * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# * GNU Affero General Public License for more details.
+# *
+# * You should have received a copy of the GNU Affero General Public License
+# * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# *
+# *--------------------------------------------------------
+# * File Name : gea12.py
+# * Created : 2021-10-19
+# * Authors : Benoit Michau 
+# *--------------------------------------------------------
+#*/
 
 # GPRS encryption algorithm 1 and 2
 # implemented from the excellent research paper on its cryptanalysis:
@@ -47,8 +72,10 @@ def byte_rev(uint, l=None):
 class LFSR(object):
     """parent class for all LFSR
     """
-    # global debugging level (0, 1 or 2)
-    dbg = 1
+    # global debugging level
+    # 0: silent
+    # 1: print initialized values in registers
+    dbg = 0
 
 
 #------------------------------------------------------------------------------#
@@ -103,7 +130,7 @@ class S(LFSR):
     def load(self):   
         while self.IN:
             self.clock()
-        if self.dbg > 1:
+        if self.dbg:
             print('S init: 0x%.16x' % bitlist_to_uint(self.R))
     
     def clock(self):
@@ -143,7 +170,7 @@ class A(LFSR):
             self.clock(self.IN.pop())
         if all([b == 0 for b in self.R]):
             self.R[0] = 1
-        if self.dbg > 1:
+        if self.dbg:
             print('A init: 0x%.16x' % bitlist_to_uint(self.R))
     
     def clock(self, inp=None):
@@ -200,7 +227,7 @@ class B(LFSR):
             self.clock(self.IN.pop())
         if all([b == 0 for b in self.R]):
             self.R[0] = 1
-        if self.dbg > 1:
+        if self.dbg:
             print('B init: 0x%.16x' % bitlist_to_uint(self.R))
     
     def clock(self, inp=None):
@@ -253,7 +280,7 @@ class C(LFSR):
             self.clock(self.IN.pop())
         if all([b == 0 for b in self.R]):
             self.R[0] = 1
-        if self.dbg > 1:
+        if self.dbg:
             print('C init: 0x%.16x' % bitlist_to_uint(self.R))
     
     def clock(self, inp=None):
@@ -320,7 +347,7 @@ class W(LFSR):
     def load(self):   
         while self.IN:
             self.clock()
-        if self.dbg > 1:
+        if self.dbg:
             print('W init: 0x%.32x' % bitlist_to_uint(self.R))
     
     def clock(self):
@@ -356,7 +383,7 @@ class D(LFSR):
             self.clock(self.IN.pop())
         if all([b == 0 for b in self.R]):
             self.R[0] = 1
-        if self.dbg > 1:
+        if self.dbg:
             print('D init: 0x%.16x' % bitlist_to_uint(self.R))
     
     def clock(self, inp=None):
@@ -408,10 +435,16 @@ class GEA1(object):
     
     Warning: this is a highly insecure encryption algorithm, providing only 40
     bits of security from a key of 64 bits.
-    This algorithm should not be supported neither used in production systems
+    This algorithm should not be used in production systems.
     """
     
     def __init__(self, iv, dir, key):
+        """
+        Args:
+            iv : uint32 integral value
+            dir: 0 or 1
+            key: uint64 integral value
+        """
         self._iv, self._dir, self._key = iv, dir, key
         # initialization phase
         self.S = S(iv, dir, key)
@@ -424,6 +457,13 @@ class GEA1(object):
         self.C.load()
     
     def gen(self, bl):
+        """
+        Args:
+            bl : keystream length in bits required
+        
+        Returns:
+            keystream : list of bits (0 or 1)
+        """
         # keystream generation phase
         self.K = []
         for i in range(bl):
@@ -436,9 +476,19 @@ class GEA1(object):
 
 class GEA2(object):
     """GPRS Encryption Algorithm 2
+    
+    Warning: this is an old and quite insecure encryption algorithm, providing a
+    of less than the 64 bits of key.
+    This algorithm should not be used in production systems.
     """
     
     def __init__(self, iv, dir, key):
+        """
+        Args:
+            iv : uint32 integral value
+            dir: 0 or 1
+            key: uint64 integral value
+        """
         self._iv, self._dir, self._key = iv, dir, key
         # initialization phase
         self.W = W(iv, dir, key)
@@ -453,6 +503,13 @@ class GEA2(object):
         self.C.load()
     
     def gen(self, bl):
+        """
+        Args:
+            bl : keystream length in bits required
+        
+        Returns:
+            keystream : list of bits (0 or 1)
+        """
         # keystream generation phase
         self.K = []
         for i in range(bl):
@@ -495,15 +552,16 @@ for cipher, plain, (key, iv, dir) in zip(
 def test_gea1():
     for i, (iv, dir, key, cipher, plain) in enumerate(TestVectorsGEA1[:3]):
         ks = bitlist_to_uint(GEA1(iv, dir, key).gen(144))
-        # ks byte-order need to be reverted
+        # keystream byte-order need to be reverted
+        # TODO: rm this ?
         print('DEBUG MMR 18OCT2021 (GEA1): %r => %r' % (
             hex(plain),
             hex(byte_rev(byte_rev(plain, 18) ^ ks, 18))
-        )) # DBEUG
+        ))
         if LFSR.dbg:
             print('Keystream: 0x%x' % ks)
         if byte_rev(plain, 18) ^ byte_rev(cipher, 18) == ks:
-            print('GEA1 test vector %i: OK :)' % i)
+            print('GEA1 test vector %i: OK' % i)
         else:
             print('GEA1 test vector %i: NOK' % i)
 
@@ -534,16 +592,16 @@ for cipher, plain, (key, iv, dir) in zip(
 def test_gea2():
     for i, (iv, dir, key, cipher, plain) in enumerate(TestVectorsGEA2[:3]):
         ks = bitlist_to_uint(GEA2(iv, dir, key).gen(144))
-        #ks = bitlist_to_uint(GEA1(byte_rev(iv, 4), dir, byte_rev(key, 8), _clkbefore=True).gen(144))
-        # ks byte-order need to be reverted
+        # keystream byte-order need to be reverted
         if LFSR.dbg:
             print('Keystream: 0x%x' % ks)
+        # TODO: rm this ?
         print('DEBUG MMR 18OCT2021: %r => %r' % (
             hex(plain),
             hex(byte_rev(byte_rev(plain, 18) ^ ks, 18))
-        )) # DBEUG
+        ))
         if byte_rev(plain, 18) ^ byte_rev(cipher, 18) == ks:
-            print('GEA2 test vector %i: OK :)' % i)
+            print('GEA2 test vector %i: OK' % i)
         else:
             print('GEA2 test vector %i: NOK' % i)
 
