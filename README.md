@@ -15,8 +15,8 @@ function.
 
 The code contained in this repository provided as-is without warranty, under the
 [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.txt) software license.
-If you are interested by another kind of licensing, please contact [P1 Security]
-(https://www.p1sec.com/corp/contact/).
+If you are interested by another kind of licensing, please contact 
+[P1 Security](https://www.p1sec.com/corp/contact/).
 
 
 ## Usage
@@ -114,16 +114,16 @@ from permutation done in its internal state). Even though the keystream bits are
 together by the current encryption / decryption C and rust libraries into bytes in order to 
 generate usable keystream, obviously.
 
-Now, you can understand that GEA-1 and GEA-2 are LFSR: [Linear Feedback Shift Register]
-(https://en.wikipedia.org/wiki/Linear-feedback_shift_register)-oriented ciphers, 
+Now, you can understand that GEA-1 and GEA-2 are LFSR: 
+[Linear Feedback Shift Register](https://en.wikipedia.org/wiki/Linear-feedback_shift_register)-oriented ciphers, 
 because their internal state is stored into fixed-size registers. This includes the S and W 
 registers which serve from initialization / key scheduling purposes and are respectively 
 64 and 97-bit wide registers, and the A, B, C and for GEA-2 only D registers which serve 
 from the purpose of keystream generation, which are respectively 31, 32, 33 and 29-bit wide 
 registers.
 
-At each iteration of the keystream generation, each register is [bit-wise rotated]
-(https://en.wikipedia.org/wiki/Circular_shift) of one position, and the bit being rotated from 
+At each iteration of the keystream generation, each register is 
+[bit-wise rotated](https://en.wikipedia.org/wiki/Circular_shift)  of one position, and the bit being rotated from 
 the left towards the right side (or conversely depending on in which bit order you internally 
 represent your registers) is being fed to the algorithm and mutated depending on given conditions, 
 hence the shifted out bit is derived from something and reinserted while being possibly 
