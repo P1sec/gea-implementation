@@ -13,6 +13,7 @@ provides a broader look at this kind of cryptographic construct.
 ## Disclaimer
 
 DO NOT USE THOSE ALGORITHMS FOR ANYTHING SERIOUS !
+
 The source codes provided in this project are for education purpose only, to help 
 understanding the cryptanalysis published recently.
 
@@ -20,9 +21,9 @@ understanding the cryptanalysis published recently.
 ## History
 
 Both GEA-1 and GEA-2 are stream ciphers based on 3, respectively 4, LFSRs and a 
-boolean function. There are relying on 64 bits symmetric key, established after
+boolean function. They are relying on a 64 bits symmetric key, established after
 a successful authentication of a mobile subscriber. They can be used to protect
-GPRS and EDGE connections (i.e. 2G), depending of the configuration done by the mobile 
+GPRS and EDGE connections, depending of the configuration done by the mobile 
 operator in its [SGSN](https://en.wikipedia.org/wiki/GPRS_core_network#Serving_GPRS_support_node_(SGSN)).
 
 They were initially designed in the 90's, together with the GPRS system.
@@ -34,12 +35,18 @@ This last one is hopefully used by most of the operators in their SGSN today (in
 A risk remains as most of the handsets continue supporting GEA-1 and GEA-2 (in 2021), 
 even if there is more and more initiatives to remove at least GEA-1 from them.
 Keeping support for weak encryption algorithm in current handsets enables for potential 
-semi-passive or plain man-in-the-middle attacks against GPRS connections.
+semi-passive or plain man-in-the-middle attacks against GPRS and EDGE connections.
+
+Unfortunately, other attacks exist against 2G connections, mainly due to weaknesses 
+within the protocols and especially the weak authentication procedure for 2G subscribers.
+Recently, the EFF indicated the Android OS will provide a feature to disable 2G in smartphones.
+Some large mobile operators have also started decommissioning their 2G network, 
+or are planning to in the years to come.
 
 
 ## Licensing
 
-The code contained in this repository provided as is without warranty, under the
+The code contained in this repository is provided as is, without warranty, under the
 [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.txt) software license.
 
 
@@ -89,8 +96,8 @@ GEA2 test vector 1: OK
 GEA2 test vector 2: OK
 ```
 
-Warning: this Python implementation is slow as hell! For any serious work, please
-use the Rust or C ones.
+Warning: this Python implementation is slow as hell! For any work that requires producing
+large keystreams, use the Rust or C ones.
 
 
 ### C
@@ -113,7 +120,7 @@ $ make clean
 rm -f test gea12.so
 ```
 
-Warning: the code makes use of the `uint64_t` type for each register, hence requires
+Warning: the code makes use of the `uint64_t` type for each LFSR register, hence requires
 a 64 bit machine. Moreover, it has been tested on a little-endian system only.
 
 
