@@ -1,18 +1,21 @@
 # GEA-1 and 2 implementations (in Python, C and Rust)
 
 This repository contains software implementations of the **GPRS Encryption 
-Algorithm 1 and 2**. The [*Cryptanalysis of the GPRS Encryption Algorithms GEA-1
+Algorithm 1 and 2**.
+
+The [*Cryptanalysis of the GPRS Encryption Algorithms GEA-1
 and GEA-2*](https://eprint.iacr.org/2021/819.pdf) research paper provides the
 complete description of both algorithms, and an efficient cryptanalysis against 
 GEA-1 (allowing to weaken the key strength to 40 bits instead of 64). It also 
 provides hints for the cryptanalysis of GEA-2.
+
 A [second paper](https://eprint.iacr.org/2021/829.pdf) extends this cryptanalysis and
 provides a broader look at this kind of cryptographic construct.
 
 
 ## Disclaimer
 
-DO NOT USE THOSE ALGORITHMS FOR ANYTHING SERIOUS!
+*DO NOT USE THOSE ALGORITHMS FOR ANYTHING SERIOUS!*
 
 The source code provided in this project is for educational purposes only, in order to help 
 understanding the recently published cryptanalysis.
@@ -59,7 +62,7 @@ As the code provided is to be used as a library, there is no system-wide install
 
 ### Python
 
-The code is made to work with Python 3.
+The code was designed to work with Python 3.
 
 In order to use the Python version of the algorithm, you can load the python file as a module and call
 the `GEA1` or `GEA` class. Beware that argument passing follows uncommon conventions: inputs IV, 
