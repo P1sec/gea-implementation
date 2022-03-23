@@ -1,7 +1,7 @@
 # GEA-1 and 2 implementations (in Python, C and Rust)
 
 This repository contains software implementations of the **GPRS Encryption 
-Algorithm 1 and 2**.
+Algorithm, version 1 and 2**.
 
 The [*Cryptanalysis of the GPRS Encryption Algorithms GEA-1
 and GEA-2*](https://eprint.iacr.org/2021/819.pdf) research paper provides the
