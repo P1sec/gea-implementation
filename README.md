@@ -15,7 +15,7 @@ provides a broader look at this kind of cryptographic construct.
 
 ## Disclaimer
 
-*DO NOT USE THOSE ALGORITHMS FOR ANYTHING SERIOUS!*
+*DO NOT USE THESE ALGORITHMS FOR ANYTHING SERIOUS!*
 
 The source code provided in this project is for educational purposes only, in order to help 
 understanding the recently published cryptanalysis.
