@@ -6,16 +6,16 @@ and GEA-2*](https://eprint.iacr.org/2021/819.pdf) research paper provides the
 complete description of both algorithms, and an efficient cryptanalysis against 
 GEA-1 (allowing to weaken the key strength to 40 bits instead of 64). It also 
 provides hints for the cryptanalysis of GEA-2.
-A [2nd paper](https://eprint.iacr.org/2021/829.pdf) extends this cryptanalysis and
+A [second paper](https://eprint.iacr.org/2021/829.pdf) extends this cryptanalysis and
 provides a broader look at this kind of cryptographic construct.
 
 
 ## Disclaimer
 
-DO NOT USE THOSE ALGORITHMS FOR ANYTHING SERIOUS !
+DO NOT USE THOSE ALGORITHMS FOR ANYTHING SERIOUS!
 
-The source codes provided in this project are for education purpose only, to help 
-understanding the cryptanalysis published recently.
+The source code provided in this project is for educational purposes only, in order to help 
+understanding the recently published cryptanalysis.
 
 
 ## History
@@ -27,21 +27,21 @@ GPRS and EDGE connections, depending of the configuration done by the mobile
 operator in its [SGSN](https://en.wikipedia.org/wiki/GPRS_core_network#Serving_GPRS_support_node_(SGSN)).
 
 They were initially designed in the 90's, together with the GPRS system.
-From the cryptanalysis paper, it seems GEA-1 was weakened on purpose; this looks 
+From the cryptanalysis paper, it seems that GEA-1 was weakened on purpose; this looks 
 similar as A5/2, which was a weakened encryption algorithm for GSM. With the development 
 of 3G and UMTS, a new algorithm GEA3 was designed in the 2000's, based on Kasumi. 
-This last one is hopefully used by most of the operators in their SGSN today (in 2021).
+This last one is hopefully used by most of the operators in their SGSN appliances today (in 2021).
 
 A risk remains as most of the handsets continue supporting GEA-1 and GEA-2 (in 2021), 
-even if there is more and more initiatives to remove at least GEA-1 from them.
+even though there is increasing effort purporting to at least remove GEA-1 from these.
 Keeping support for weak encryption algorithm in current handsets enables for potential 
 semi-passive or plain man-in-the-middle attacks against GPRS and EDGE connections.
 
 Unfortunately, other attacks exist against 2G connections, mainly due to weaknesses 
 within the protocols and especially the weak authentication procedure for 2G subscribers.
-Recently, the EFF indicated the Android OS will provide a feature to disable 2G in smartphones.
-Some large mobile operators have also started decommissioning their 2G network, 
-or are planning to in the years to come.
+Recently, the EFF indicated that the Android OS will provide a feature allow to disable 2G within smartphones.
+Certain large mobile operators have also started decommissioning their 2G network, 
+or are planning to do so in the years to come.
 
 
 ## Licensing
@@ -54,21 +54,21 @@ The code contained in this repository is provided as is, without warranty, under
 
 ### Installation
 
-As the code provided is to be used as a library, there is no system installation required.
+As the code provided is to be used as a library, there is no system-wide installation process required.
 
 
 ### Python
 
 The code is made to work with Python 3.
 
-In order to use the Python version, you can load the python file as a module and call
-the `GEA1` or `GEA` classes. Beware that arguments are in an uncommon format: inputs IV, 
-direction and Key must be passed as integral values, and the `gen()` method takes a length
-in bits for the requested keystream, and returns a list of bits (0 or 1). Docstrings are 
+In order to use the Python version of the algorithm, you can load the python file as a module and call
+the `GEA1` or `GEA` class. Beware that argument passing follows uncommon conventions: inputs IV, 
+direction and Key must be passed as integer values, and the `gen()` method takes a length
+in bits for the requested keystream, before returning a list of bit values (0 or 1). Docstrings are 
 provided within the modules.
 
-Moreover, the `LFSR.dbg` attribute can be set in order to print the initialized values
-within registers.
+Moreover, the `LFSR.dbg` attribute can be set in order to have the initialized values
+present within registers printed.
 
 ```
 >>> from gea12 import *
@@ -84,7 +84,7 @@ C init: 0x0000000100000000
 ```
 
 
-Calling the `gea12.py` file as is runs the 3 test vectors for the 2 algorithms.
+Calling the `gea12.py` file as is will run the 3 test vectors for the 2 algorithms.
 
 ```
 $ python ./gea12.py 
@@ -96,15 +96,15 @@ GEA2 test vector 1: OK
 GEA2 test vector 2: OK
 ```
 
-Warning: this Python implementation is slow as hell! For any work that requires producing
-large keystreams, use the Rust or C ones.
+Warning: this Python implementation is slow as hell! In the context of any work that requires producing
+large keystreams, please use the Rust or C ones.
 
 
 ### C
 
 The C implementation is provided under the `gea-c` sub-directory.
 The implementation for GEA1 and GEA2 is available in the `gea12.c` and `gea12.h` files,
-while the `gea12_test.c` implements the testing with the 3 test vectors. A very simple 
+while the `gea12_test.c` implements the testing procedure with the 3 test vectors. A very simple 
 Makefile enables to build an application running the test vectors or a shared library:
 
 ```
@@ -120,14 +120,14 @@ $ make clean
 rm -f test gea12.so
 ```
 
-Warning: the code makes use of the `uint64_t` type for each LFSR register, hence requires
-a 64 bit machine. Moreover, it has been tested on a little-endian system only.
+Warning: the C code makes use of the `uint64_t` type for each LFSR register, hence it requires
+a 64-bit machine. Moreover, it has been tested on a little-endian system only.
 
 
 ### Rust
 
 The Rust implementation is provided under the `gea-rs` subdirectory.
-It is an independant crate which contains documentation.
+It is an independant crate which contains standard documentation.
 
 Examples of usage are present in the [`lib.rs`](gea-rs/src/lib.rs) file.
 These examples are also tests, which can be run using the following command:
@@ -143,12 +143,12 @@ It should first be noted that GEA-1 and GEA-2, which are very similar (GEA-2 is 
 an extension of GEA-1 with an higher amount of processing, and apparently not weakened) 
 are bit-oriented stream ciphers.
 
-A stream cipher, like the well-known RC4 or GEA-1, works by the Xor operation. 
-Also, the Xor operation being symmetrical, this means that encrypting is the same 
+A stream cipher, such as the well-known RC4 or GEA-1, usually works through using the Xor operation against a plaintext. 
+The Xor operation being symmetrical, this means that encrypting should be considered the same 
 operation as decrypting: GEA-1 and GEA-2 are basically pseudo-random data generators, 
 taking a seed (the key, IV and direction bit of the GPRS data, which are concatenated), 
-and the generated random data (the keystream) is Xor'd with the clear-text data (the plaintext) 
-for encrypting. Then, later, the keystream is Xor'd with the encrypted data (the ciphertext) 
+and the generated random data (the keystream) is xored with the clear-text data (the plaintext) 
+for encrypting. Then, later, the keystream is xored with the encrypted data (the ciphertext) 
 for decrypting. That is why the functions called in the target library for decrypting 
 and encrypting are the same.
 
@@ -156,23 +156,23 @@ GEA-1 and GEA-2 are bit-oriented, unlike RC4 which is byte-oriented, because the
 algorithms generate only one bit of pseudo-random data at once (derived from their internal state), 
 while algorithms like RC4 generate no less than one byte at once (in RC4's case, derived 
 from permutation done in its internal state). Even though the keystream bits are put 
-together by the current encryption / decryption C and rust libraries into bytes in order to 
+together by the current encryption / decryption C and Rust libraries into bytes in order to 
 generate usable keystream, obviously.
 
-Now, you can understand that GEA-1 and GEA-2 are LFSR: 
+Based on this, you can understand that GEA-1 and GEA-2 are LFSR: 
 [Linear Feedback Shift Register](https://en.wikipedia.org/wiki/Linear-feedback_shift_register)-oriented ciphers, 
 because their internal state is stored into fixed-size registers. This includes the S and W 
-registers which serve from initialization / key scheduling purposes and are respectively 
-64 and 97-bit wide registers, and the A, B, C and for GEA-2 only D registers which serve 
-from the purpose of keystream generation, which are respectively 31, 32, 33 and 29-bit wide 
+registers which serve for initialization / key scheduling purposes and are respectively 
+64 and 97-bit wide registers, and the A, B, C (and for GEA-2 only D) registers which serve 
+for the purpose of keystream generation, which are respectively 31, 32, 33 and 29-bit wide 
 registers.
 
-At each iteration of the keystream generation, each register is 
-[bit-wise rotated](https://en.wikipedia.org/wiki/Circular_shift) of one position, and the bit being rotated from 
+On each iteration of the keystream generation, each register is 
+[bit-wise rotated](https://en.wikipedia.org/wiki/Circular_shift) by one position, while the bit being rotated from 
 the left towards the right side (or conversely depending on in which bit order you internally 
-represent your registers) is being fed to the algorithm and mutated depending on given conditions, 
-hence the shifted out bit is derived from something and reinserted while being possibly 
-flipped depending on conditions at the other side of the given register. That is why 
+represent your registers) is fed back to the algorithm and mutated depending on given conditions.
+Hence, the shifted-out bit is derived from other processing, and reinserted, while being for this reason possibly 
+flipped depending on conditions depending on bits present at the other side of the given register. This is the explanation for 
 the name of linear feedback shift register (shift because of the shift operation required 
 for the rotation, and linear feedback because of the constant-time transform operation involved).
 
