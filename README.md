@@ -1,30 +1,53 @@
 # GEA-1 and 2 implementations (in Python, C and Rust)
 
 This repository contains software implementations of the **GPRS Encryption 
-Algorithm 1 and 2**. The ["*Cryptanalysis of the GPRS Encryption Algorithms GEA-1
-and GEA-2*"](https://eprint.iacr.org/2021/819.pdf) research paper provides the
+Algorithm 1 and 2**. The [*Cryptanalysis of the GPRS Encryption Algorithms GEA-1
+and GEA-2*](https://eprint.iacr.org/2021/819.pdf) research paper provides the
 complete description of both algorithms, and an efficient cryptanalysis against 
-GEA-1 (allowing to weaken the key strength to 40 bits instead of 64).
+GEA-1 (allowing to weaken the key strength to 40 bits instead of 64). It also 
+provides hints for the cryptanalysis of GEA-2.
 A [2nd paper](https://eprint.iacr.org/2021/829.pdf) extends this cryptanalysis and
 provides a broader look at this kind of cryptographic construct.
 
-Both GEA-1 and GEA-2 are stream ciphers based on 3, and respectively 4, LFSRs and a boolean
-function.
+
+## Disclaimer
+
+DO NOT USE THOSE ALGORITHMS FOR ANYTHING SERIOUS !
+The source codes provided in this project are for education purpose only, to help 
+understanding the cryptanalysis published recently.
+
+
+## History
+
+Both GEA-1 and GEA-2 are stream ciphers based on 3, respectively 4, LFSRs and a 
+boolean function. There are relying on 64 bits symmetric key, established after
+a successful authentication of a mobile subscriber. They can be used to protect
+GPRS and EDGE connections (i.e. 2G), depending of the configuration done by the mobile 
+operator in its [SGSN](https://en.wikipedia.org/wiki/GPRS_core_network#Serving_GPRS_support_node_(SGSN)).
+
+They were initially designed in the 90's, together with the GPRS system.
+From the cryptanalysis paper, it seems GEA-1 was weakened on purpose; this looks 
+similar as A5/2, which was a weakened encryption algorithm for GSM. With the development 
+of 3G and UMTS, a new algorithm GEA3 was designed in the 2000's, based on Kasumi. 
+This last one is hopefully used by most of the operators in their SGSN today (in 2021).
+
+A risk remains as most of the handsets continue supporting GEA-1 and GEA-2 (in 2021), 
+even if there is more and more initiatives to remove at least GEA-1 from them.
+Keeping support for weak encryption algorithm in current handsets enables for potential 
+semi-passive or plain man-in-the-middle attacks against GPRS connections.
 
 
 ## Licensing
 
 The code contained in this repository provided as is without warranty, under the
 [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.txt) software license.
-If you are interested by another kind of licensing, please contact 
-[P1 Security](https://www.p1sec.com/corp/contact/).
 
 
 ## Usage
 
 ### Installation
 
-As the code provided is to be used into any kind of application, there is no installation required.
+As the code provided is to be used as a library, there is no system installation required.
 
 
 ### Python
@@ -97,21 +120,21 @@ a 64 bit machine. Moreover, it has been tested on a little-endian system only.
 ### Rust
 
 The Rust implementation is provided under the `gea-rs` subdirectory.
-
 It is an independant crate which contains documentation.
 
 Examples of usage are present in the [`lib.rs`](gea-rs/src/lib.rs) file.
-
 These examples are also tests, which can be run using the following command:
 
 ```console-session
 cargo test --release
 ```
 
+
 ## How do those LFSR-based algorithms work?
 
-It should first be noted that GEA-1 and GEA-2, which are very similar (GEA-1 is just 
-an extension of GEA-2 with an higher amount of processing) are bit-oriented stream ciphers.
+It should first be noted that GEA-1 and GEA-2, which are very similar (GEA-2 is just 
+an extension of GEA-1 with an higher amount of processing, and apparently not weakened) 
+are bit-oriented stream ciphers.
 
 A stream cipher, like the well-known RC4 or GEA-1, works by the Xor operation. 
 Also, the Xor operation being symmetrical, this means that encrypting is the same 
@@ -120,9 +143,9 @@ taking a seed (the key, IV and direction bit of the GPRS data, which are concate
 and the generated random data (the keystream) is Xor'd with the clear-text data (the plaintext) 
 for encrypting. Then, later, the keystream is Xor'd with the encrypted data (the ciphertext) 
 for decrypting. That is why the functions called in the target library for decrypting 
-and encrypting are same.
+and encrypting are the same.
 
-GEA-1 and GEA-2 are bit-oriented, unlike RC4 which is*byte-oriented, because their 
+GEA-1 and GEA-2 are bit-oriented, unlike RC4 which is byte-oriented, because their 
 algorithms generate only one bit of pseudo-random data at once (derived from their internal state), 
 while algorithms like RC4 generate no less than one byte at once (in RC4's case, derived 
 from permutation done in its internal state). Even though the keystream bits are put 
@@ -154,4 +177,18 @@ Note that a step where the register iterates is called *clocking* (the register 
 and that the fixed points where the register may be Xor'ed when the rotated bit becomes a 1 are called *taps*.
 The linear function which may transmute the rotated bit at the clocking step (taking several bits 
 of the original register as an input) is called the *F function*.
+
+Those kind of bit-oriented LFSR algorithms, such as GEA-1 and 2 (for GPRS) and A5/1 and 2 (for GSM),
+were designed this way for optimal hardware implementations in the late 80's and early 90's.
+
+
+## Other related projects
+
+Airbus SecLab released an implementation for the cryptanalysis and key recovery attack against GEA-1,
+[GEA1_break](https://github.com/airbus-seclab/GEA1_break), based on the initial cryptanalysis paper.
+
+Older projects related to the cryptanalysis of the GSM A5/1 and A5/2 encryption algorithms:
+- SRLabs [A5/1 Decryption](https://opensource.srlabs.de/projects/a51-decrypt/)
+- brmlab hackerspace prague [Deka](https://brmlab.cz/project/gsm/deka/start)
+- rblaze [a52crack](https://github.com/rblaze/a52crack)
 
