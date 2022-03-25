@@ -141,7 +141,7 @@ class S(LFSR):
         self.clk += 1
     
     def f(self):
-         return f(
+        return f(
             self.R[3],
             self.R[12],
             self.R[22],
@@ -358,7 +358,7 @@ class W(LFSR):
         self.clk += 1
     
     def f(self):
-         return f(
+        return f(
             self.R[4],
             self.R[18],
             self.R[33],
