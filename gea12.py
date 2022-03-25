@@ -69,7 +69,7 @@ def byte_rev(uint, l=None):
     return reduce(lambda x, y: (x<<8)+y, b)
 
 
-class LFSR(object):
+class LFSR:
     """parent class for all LFSR
     """
     # global debugging level
@@ -430,7 +430,7 @@ class D(LFSR):
 # GEA
 #------------------------------------------------------------------------------#
 
-class GEA1(object):
+class GEA1:
     """GPRS Encryption Algorithm 1
     
     Warning: this is a highly insecure encryption algorithm, providing only 40
@@ -474,7 +474,7 @@ class GEA1(object):
         return list(reversed(self.K))
 
 
-class GEA2(object):
+class GEA2:
     """GPRS Encryption Algorithm 2
     
     Warning: this is an old and quite insecure encryption algorithm, providing a
