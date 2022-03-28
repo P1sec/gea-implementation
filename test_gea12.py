@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 #/**
-# * Software Name : gea12.py
+# * Software Name : test_gea12.py
 # * Version : 0.1
 # *
 # * Copyright 2021. Benoit Michau. P1Sec.
