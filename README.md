@@ -87,16 +87,16 @@ C init: 0x0000000100000000
 ```
 
 
-Calling the `test_gea12.py` file as is will run the 3 test vectors for the 2 algorithms.
+Calling the `test_gea12.py` file as is will run the 3 test vectors for the 2 algorithms,
+as a unittest module.
 
 ```
 $ python3 ./test_gea12.py 
-GEA1 test vector 0: OK
-GEA1 test vector 1: OK
-GEA1 test vector 2: OK
-GEA2 test vector 0: OK
-GEA2 test vector 1: OK
-GEA2 test vector 2: OK
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.020s
+
+OK
 ```
 
 Warning: this Python implementation is slow as hell! In the context of any work that requires producing
