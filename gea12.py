@@ -69,7 +69,7 @@ def byte_rev(uint, l=None):
     return reduce(lambda x, y: (x<<8)+y, b)
 
 
-class LFSR(object):
+class LFSR:
     """parent class for all LFSR
     """
     # global debugging level
@@ -141,7 +141,7 @@ class S(LFSR):
         self.clk += 1
     
     def f(self):
-         return f(
+        return f(
             self.R[3],
             self.R[12],
             self.R[22],
@@ -358,7 +358,7 @@ class W(LFSR):
         self.clk += 1
     
     def f(self):
-         return f(
+        return f(
             self.R[4],
             self.R[18],
             self.R[33],
@@ -430,7 +430,7 @@ class D(LFSR):
 # GEA
 #------------------------------------------------------------------------------#
 
-class GEA1(object):
+class GEA1:
     """GPRS Encryption Algorithm 1
     
     Warning: this is a highly insecure encryption algorithm, providing only 40
@@ -474,7 +474,7 @@ class GEA1(object):
         return list(reversed(self.K))
 
 
-class GEA2(object):
+class GEA2:
     """GPRS Encryption Algorithm 2
     
     Warning: this is an old and quite insecure encryption algorithm, providing a
@@ -519,84 +519,3 @@ class GEA2(object):
             self.C.clock()
             self.D.clock()
         return list(reversed(self.K))
-
-
-#------------------------------------------------------------------------------#
-# test vectors
-#------------------------------------------------------------------------------#
-
-TestVectorsGEA1 = []
-
-for cipher, plain, (key, iv, dir) in zip(
-    [
-        0x1FA198AB2114C38A9EBCCB63AD4813A740C1,
-        0x58dad06457b9fe1015da0776ed19907b7888,
-        0xd72197f65d4d67b14d2cee812cb0b9bea0c9
-    ],
-    [
-        0x000000000000000000000000000000000000,
-        0x6e00cfe7b7fb974892b8cde5e43363397d85,
-        0x96e7b1d92b1ea8fcdda41233c63294055383
-    ],
-    [
-        (0x0000000000000000, 0x00000000, 0),
-        (0x55e303eb7d55b685, 0xda637a83, 1),
-        (0xa7265d1932a0d618, 0x0e9b8adf, 0)
-    ]
-):
-    TestVectorsGEA1.append(
-        (iv, dir, key, cipher, plain)
-    )
-
-
-def test_gea1():
-    for i, (iv, dir, key, cipher, plain) in enumerate(TestVectorsGEA1[:3]):
-        ks = bitlist_to_uint(GEA1(iv, dir, key).gen(144))
-        # keystream byte-order needs to be reverted
-        if LFSR.dbg:
-            print('Keystream: 0x%x' % ks)
-        if byte_rev(plain, 18) ^ byte_rev(cipher, 18) == ks:
-            print('GEA1 test vector %i: OK' % i)
-        else:
-            print('GEA1 test vector %i: NOK' % i)
-
-TestVectorsGEA2 = []
-
-for cipher, plain, (key, iv, dir) in zip(
-    [
-        0x045115d5e5a2d62541da078b18baa53ffe14,
-        0x5156569d2ab98257be1a37d60ddf07ae9075,
-        0x509c19b78d1d4ceb49c3b1f43df014f74cda
-    ],
-    [
-        0x000000000000000000000000000000000000,
-        0xeabf6d3c6ba5dbf76ebb3c4c0ac0240cb0ab,
-        0xf9373de52ea62c49069711e83389d037fc17
-    ],
-    [
-        (0x0000000000000000, 0x00000000, 0),
-        (0xb10f389b78a61648, 0x24c05b01, 1),
-        (0x0c34b2940a9707fd, 0xf59cc96a, 0)
-    ]
-):
-    TestVectorsGEA2.append(
-        (iv, dir, key, cipher, plain)
-    )
-
-
-def test_gea2():
-    for i, (iv, dir, key, cipher, plain) in enumerate(TestVectorsGEA2[:3]):
-        ks = bitlist_to_uint(GEA2(iv, dir, key).gen(144))
-        # keystream byte-order needs to be reverted
-        if LFSR.dbg:
-            print('Keystream: 0x%x' % ks)
-        if byte_rev(plain, 18) ^ byte_rev(cipher, 18) == ks:
-            print('GEA2 test vector %i: OK' % i)
-        else:
-            print('GEA2 test vector %i: NOK' % i)
-
-
-if __name__ == '__main__':
-    test_gea1()
-    test_gea2()
-

@@ -87,10 +87,10 @@ C init: 0x0000000100000000
 ```
 
 
-Calling the `gea12.py` file as is will run the 3 test vectors for the 2 algorithms.
+Calling the `test_gea12.py` file as is will run the 3 test vectors for the 2 algorithms.
 
 ```
-$ python ./gea12.py 
+$ python3 ./test_gea12.py 
 GEA1 test vector 0: OK
 GEA1 test vector 1: OK
 GEA1 test vector 2: OK
