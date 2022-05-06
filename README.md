@@ -3,14 +3,16 @@
 This repository contains software implementations of the **GPRS Encryption 
 Algorithm, version 1 and 2**.
 
-The [*Cryptanalysis of the GPRS Encryption Algorithms GEA-1
-and GEA-2*](https://eprint.iacr.org/2021/819.pdf) research paper provides the
-complete description of both algorithms, and an efficient cryptanalysis against 
+The [*Cryptanalysis of the GPRS Encryption Algorithms GEA-1 and GEA-2*](https://eprint.iacr.org/2021/819.pdf) 
+research paper provides the complete description of both algorithms, and an efficient cryptanalysis against 
 GEA-1 (allowing to weaken the key strength to 40 bits instead of 64). It also 
 provides hints for the cryptanalysis of GEA-2.
 
-A [second paper](https://eprint.iacr.org/2021/829.pdf) extends this cryptanalysis and
-provides a broader look at this kind of cryptographic construct.
+A second paper: [*o Shift or Not to Shift: Understanding GEA-1*](https://eprint.iacr.org/2021/829.pdf)
+extends this cryptanalysis and provides a broader look at this kind of cryptographic construct.
+
+A third one: [*Refined Cryptanalysis of the GPRS Ciphers GEA-1 and GEA-2*](https://eprint.iacr.org/2022/424.pdf)
+enhances the cryptanalysis of both GEA1 and GEA2, e.g. reducing the memory requirements.
 
 
 ## Disclaimer
