@@ -8,7 +8,7 @@ research paper provides the complete description of both algorithms, and an effi
 GEA-1 (allowing to weaken the key strength to 40 bits instead of 64). It also 
 provides hints for the cryptanalysis of GEA-2.
 
-A second paper: [*o Shift or Not to Shift: Understanding GEA-1*](https://eprint.iacr.org/2021/829.pdf)
+A second paper: [*To Shift or Not to Shift: Understanding GEA-1*](https://eprint.iacr.org/2021/829.pdf)
 extends this cryptanalysis and provides a broader look at this kind of cryptographic construct.
 
 A third one: [*Refined Cryptanalysis of the GPRS Ciphers GEA-1 and GEA-2*](https://eprint.iacr.org/2022/424.pdf)
